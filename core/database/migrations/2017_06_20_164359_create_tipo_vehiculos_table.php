@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateTipoVehiculosTable extends Migration
 {
@@ -13,7 +13,8 @@ class CreateTipoVehiculosTable extends Migration
     public function up()
     {
         Schema::create('tipo_vehiculos', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('nombre', 50);
             $table->timestamps();
         });
     }

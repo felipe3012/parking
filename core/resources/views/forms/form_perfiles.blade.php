@@ -1,3 +1,4 @@
+{!! Form::hidden('permisos', null, ['id'=>'permisos']) !!}
 <div class="item form-group">
     {!!Html::decode(Form::label('nombre', 'Nombre<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">

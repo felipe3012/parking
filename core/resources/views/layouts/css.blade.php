@@ -21,6 +21,8 @@
 {!!Html::style('theme/plugins/bower_components/datatables/jquery.dataTables.min.css')!!}
 <!-- daterange picker -->
 {!!Html::style('theme/plugins/bower_components/iziModal/iziModal.css')!!}
+<!-- Tree -->
+ {!!Html::style('theme/plugins/bower_components/tree/dist/themes/default/style.min.css')!!}
 <!-- Custom styling plus plugins -->
 {!!Html::style('theme/plugins/bower_components/msgbox/jquery.msgbox.css')!!}
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

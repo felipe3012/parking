@@ -14,6 +14,11 @@ class CreateConveniosTable extends Migration
     {
         Schema::create('convenios', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+            $table->integer('tipo_convenio');
+            $table->integer('numero_carros');
+            $table->integer('numero_motos');
             $table->timestamps();
         });
     }

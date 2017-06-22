@@ -6,7 +6,7 @@
   <div class="row">
         <div class="col-md-12">
           <div class="white-box">
-            <h3 class="box-title">Datos de la finca </h3>
+            <h3 class="box-title">Datos del parqueadero </h3>
             @if(count($configuraciones)>0)
             <?php $configuraciones = $configuraciones[0];?>
               @include('configuraciones.edit')

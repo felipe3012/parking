@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{$data->nombre}}</td>
                     <td>{{$data->referencia}}</td>
-                    <td>{{$data->icono}}</td>
+                    <td><i class="{{$data->icono}}"></i></td>
                     <td>{{$data->padre}}</td>
                      <td>{{$data->peso}}</td>
                     <td>

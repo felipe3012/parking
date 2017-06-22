@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Configuraciones extends Model
 {
-     //
+    //
     /**
      * The database table used by the model.
      *
@@ -26,5 +26,5 @@ class Configuraciones extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','nombre','logo','direccion','telefono','nit'];
+    protected $fillable = ['id', 'nombre', 'logo', 'direccion', 'telefono', 'nit'];
 }

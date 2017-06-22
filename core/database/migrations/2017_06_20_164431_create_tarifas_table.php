@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateTarifasTable extends Migration
 {
@@ -13,7 +13,9 @@ class CreateTarifasTable extends Migration
     public function up()
     {
         Schema::create('tarifas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->float('precio');
+            $table->integer('precio');
             $table->timestamps();
         });
     }

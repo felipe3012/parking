@@ -14,10 +14,31 @@
 </div>
 <br/>
 <div align="center" class="form-group">
-    {!!Form::submit('Actualizar',['class'=>'btn btn-sm btn-primary','id'=>'send'])!!}
+    <button class="btn btn-sm btn-primary" id="btsubmit" type="submit">
+        Actualizar
+    </button>
     <button class="btn btn-sm btn-warning" onclick="window.parent.location.href = '{{config('domains.Base')[0]}}perfiles'" type="button">
         Cancelar
     </button>
 </div>
 {!!Form::close()!!}
+@stop
+@section('script')
+<script type="text/javascript">
+$(document).on('click', '#btsubmit', function(event) {
+    event.preventDefault();
+    var data = $("#jstree").jstree("get_checked",null,true);
+        console.log(data);
+    	$('#permisos').val(data);
+    	document.getElementById("btsubmit").value = "Enviando...";
+        document.getElementById("btsubmit").disabled = true;
+        $("#frm").submit();
+});
+
+    $(function () {
+        $('#jstree').jstree({'plugins':["wholerow","checkbox"], 'core' : {
+            'data' : [<?php echo $funcionalidades; ?> ]
+                                                                         }});
+                           });
+</script>
 @stop

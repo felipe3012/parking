@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateEmpresasTable extends Migration
 {
@@ -13,7 +13,13 @@ class CreateEmpresasTable extends Migration
     public function up()
     {
         Schema::create('empresas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('nit');
+            $table->string('nombre');
+            $table->string('direccion');
+            $table->string('contacto');
+            $table->string('telefono');
+            $table->string('correo');
             $table->timestamps();
         });
     }

@@ -14,6 +14,8 @@ class CreateTarifasServiciosTable extends Migration
     {
         Schema::create('tarifas__servicios', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('id_servicio');
+            $table->integer('id_tarifa');
             $table->timestamps();
         });
     }

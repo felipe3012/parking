@@ -23,6 +23,7 @@
 {!!Html::script('theme/js/custom.js')!!}
 
 {!!Html::script('theme/plugins/bower_components/toast-master/js/jquery.toast.js')!!}
-
+<!--Tree-->
+{!!Html::script('theme/plugins/bower_components/tree/dist/jstree.min.js')!!}
 <!--funciones-->
 {!!Html::script('theme/js/funciones.js')!!}

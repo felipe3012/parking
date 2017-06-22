@@ -5,7 +5,9 @@ namespace Parking\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Parking\Funcionalidades;
 use Parking\Perfiles;
+use Parking\Permisos;
 use Session;
 
 class PerfilesController extends Controller
@@ -37,6 +39,7 @@ class PerfilesController extends Controller
     public function index()
     {
         //
+
         $perfiles = Perfiles::select(DB::raw("count(id_perfil) as nuser, perfiles.id, perfiles.nombre"))
             ->leftJoin('usuarios', 'usuarios.id_perfil', '=', 'perfiles.id')
             ->groupby('id_perfil', 'perfiles.id', 'perfiles.nombre')->get();
@@ -51,7 +54,8 @@ class PerfilesController extends Controller
     public function create()
     {
         //
-        return view('perfiles.new');
+        $funcionalidades = $this->build_funcionalidades([]);
+        return view('perfiles.new', compact('funcionalidades'));
     }
 
     /**
@@ -63,8 +67,15 @@ class PerfilesController extends Controller
     public function store(Request $request)
     {
         //
+        $permisos = [];
+        if (!empty($request['permisos'])) {
+            $permisos = explode(",", $request['permisos']);
+        }
         try {
-            Perfiles::create($request->all());
+            $perfil = Perfiles::create($request->all());
+            foreach ($permisos as $value) {
+                Permisos::create(['id_perfil' => $perfil->id, 'id_funcionalidad' => $value]);
+            }
             Session::flash('message-success', 'Perfil ' . $request['nombre'] . ' creado correctamente');
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al crear perfil' . $request['nombre']);
@@ -93,8 +104,10 @@ class PerfilesController extends Controller
     public function edit($id)
     {
         //
-        $perfil = $this->perfiles;
-        return view('perfiles.edit', compact('perfil'));
+        $perfil          = $this->perfiles;
+        $permisos        = Permisos::where('id_perfil',$perfil->id)->get();
+        $funcionalidades = $this->build_funcionalidades($permisos);
+        return view('perfiles.edit', compact('perfil', 'funcionalidades'));
     }
 
     /**
@@ -107,12 +120,23 @@ class PerfilesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $permisos = [];
+        if (!empty($request['permisos'])) {
+            $permisos = explode(",", $request['permisos']);
+        }
         $this->perfiles->fill($request->all());
-        if ($this->perfiles->save()) {
-            Session::flash('message-success', 'Perfil ' . $request['nombre'] . ' actualizado correctamente');
-        } else {
+        DB::table('permisos')->where('id_perfil', $this->perfiles->id)->delete();
+        try {
+            if ($this->perfiles->save()) {
+                foreach ($permisos as $value) {
+                    Permisos::create(['id_perfil' => $this->perfiles->id, 'id_funcionalidad' => $value]);
+                }
+                Session::flash('message-success', 'Perfil ' . $request['nombre'] . ' actualizado correctamente');
+            }
+        } catch (Exception $e) {
             Session::flash('message-error', 'Error al actualizar perfil' . $request['nombre']);
         }
+
         return $this->retorno("perfiles");
     }
 
@@ -127,10 +151,36 @@ class PerfilesController extends Controller
         //
         try {
             Perfiles::destroy($id);
+            DB::table('permisos')->where('id_perfil', $id)->delete();
             Session::flash('message-success', 'Perfil ' . $nombre . ' eliminado correctamente');
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al eliminar perfil' . $nombre);
         }
         return $this->retorno("perfiles");
     }
+
+    public function build_funcionalidades($permisos)
+    {
+        $permiso = [];
+        $funcion   = '';
+        $funciones = Funcionalidades::all();
+        if (count($permisos) > 0) {
+            foreach ($permisos as $values) {
+                array_push($permiso, $values->id_funcionalidad);
+            }
+        }
+        foreach ($funciones as $value) {
+            $subfuncion = $value->padre;
+            $boolean    = "false";
+            if (in_array($value->id, $permiso)) {
+                $boolean = "true";
+            }
+            if ($subfuncion == 0) {
+                $subfuncion = '#';
+            }
+            $funcion .= '{ "id" : "' . $value->id . '", "parent" : "' . $subfuncion . '", "text" : "' . $value->nombre . '", "icon": "' . $value->icono . '","state": {"selected": ' . $boolean . '}},';
+        }
+        return $funcion;
+    }
+
 }
