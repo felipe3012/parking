@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Parking
+        psr4_prefix: Parking
+        src_path: app
