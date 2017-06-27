@@ -18,9 +18,12 @@ class CreateConfiguracionesTable extends Migration
             $table->string('nombre',50);
             $table->string('direccion',100);
             $table->string('telefono',20);
+            $table->integer('stock_carros')->nullable();
+            $table->integer('stock_motos')->nullable();
+            $table->string('tiempo_gracia',20);
             $table->text('logo');
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

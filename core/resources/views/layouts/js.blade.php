@@ -25,5 +25,8 @@
 {!!Html::script('theme/plugins/bower_components/toast-master/js/jquery.toast.js')!!}
 <!--Tree-->
 {!!Html::script('theme/plugins/bower_components/tree/dist/jstree.min.js')!!}
+<!--Clock pickers-->
+{!!Html::script('theme/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js')!!}
+{!!Html::script('theme/plugins/bower_components/clockpicker/dist/bootstrap-clockpicker.min.js')!!}
 <!--funciones-->
 {!!Html::script('theme/js/funciones.js')!!}

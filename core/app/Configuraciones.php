@@ -26,5 +26,6 @@ class Configuraciones extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'nombre', 'logo', 'direccion', 'telefono', 'nit'];
+    protected $fillable = ['id', 'nombre', 'logo', 'direccion', 'telefono', 'stock_carros', 'stock_motos', 'tiempo_gracia', 'nit'];
 }
+ 

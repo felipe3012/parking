@@ -47,9 +47,9 @@ Route::get('tipovehiculodel/{id}', 'TipoVehiculosController@destroy')->name('tip
 Route::resource('convenios','ConveniosController');
 Route::get('conveniodel/{id}', 'ConveniosController@destroy')->name('conveniodel');
 
-//Cortesias
+//Cortesias 
 Route::resource('cortesias','CortesiasController');
-Route::get('cortesiadel/{id}', 'CortesiasController@destroy')->name('cortesiadel');
+Route::get('cortesiadel/{id}/{name}', 'CortesiasController@destroy')->name('cortesiadel');
 
 //Facturas
 Route::resource('facturas','FacturasController');
