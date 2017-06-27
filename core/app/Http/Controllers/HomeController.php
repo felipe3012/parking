@@ -2,13 +2,14 @@
 
 namespace Parking\Http\Controllers;
 
-use Parking\Http\Requests;
-use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Http\Request;
+use Parking\TipoVehiculos;
+use Parking\Servicios;
 
 class HomeController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -17,19 +18,12 @@ class HomeController extends Controller
     {
         //
         if (Auth::check()) {
-            return $this->inicio();
+            $servicios     = Servicios::lists('nombre', 'id')->toArray();
+            $tipovehiculos = TipoVehiculos::lists('nombre', 'id')->toArray();
+            return view('home', compact('tipovehiculos', 'servicios'));
         }
-        return view('home');
+        return view('auth.login');
 
-    }
-
-/**
- * [inicio description]
- * @return [type] [description]
- */
-    public function inicio()
-    {
-        return view('inicio');
     }
 
     /**

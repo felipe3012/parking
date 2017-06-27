@@ -15,7 +15,11 @@ class CreateServiciosTable extends Migration
         Schema::create('servicios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre', 50);
+            $table->text('descripcion', 100);
+            $table->float('valor');
+            $table->integer('id_tipo_vehiculo');
             $table->timestamps();
+            $table->foreign('id_tipo_vehiculo')->references('id')->on('tipo_vehiculos');
         });
     }
 

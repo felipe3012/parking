@@ -4,12 +4,13 @@ namespace Parking\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Parking\Http\Requests;
 use Parking\User;
 use Parking\Perfiles;
 use Session;
 use Redirect;
-use Auth;
 
 class UsuariosController extends Controller
 {

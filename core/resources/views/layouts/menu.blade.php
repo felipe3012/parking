@@ -36,7 +36,11 @@
      
         </li>
         <li> <a href="{!!url('servicios')!!}" class="waves-effect"><i class="ti-briefcase fa-fw"></i> <span class="hide-menu">Servicios</span></a>
-       
+
+ <li> <a href="{!!url('tipovehiculos')!!}" class="waves-effect"><i class="fa fa-bars fa-fw"></i> <span class="hide-menu">Tipo Vehiculos</span></a>
+
+  <li> <a href="{!!url('reportes')!!}" class="waves-effect"><i class="fa fa-bar-chart fa-fw"></i> <span class="hide-menu">Reportes</span></a>
+
         </li>
         <li class="nav-small-cap">--- Menu Administrativo</li>
         <li> <a href="{!!url('perfiles')!!}" class="waves-effect "><i data-icon="&#xe008;" class="icon-people fa-fw"></i> <span class="hide-menu">Perfiles</span></a>
@@ -49,7 +53,8 @@
   
         </li>
         <li> <a href="{!!url('configuraciones')!!}" class="waves-effect"><i data-icon="P" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Configuración</span></a> </li>
-   
+
+        <li> <a href="{!!url('backups')!!}" class="waves-effect"><i class="fa fa-database fa-fw"></i> <span class="hide-menu">Backup</span></a> </li>   
         
       </ul>
     </div>

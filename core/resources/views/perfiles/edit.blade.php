@@ -18,7 +18,7 @@
         Actualizar
     </button>
     <button class="btn btn-sm btn-warning" onclick="window.parent.location.href = '{{config('domains.Base')[0]}}perfiles'" type="button">
-        Cancelar
+       <i class="fa fa-close"></i> Cancelar
     </button>
 </div>
 {!!Form::close()!!}

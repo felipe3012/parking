@@ -24,7 +24,7 @@ $(document).on('click', '.iframe', function(event) {
         subtitle: sub,
         icon: icon,
         transitionIn: 'bounceIn',
-        headerColor: 'rgb(3, 169, 243)',
+        headerColor: 'rgb(79, 84, 103)',
         overlay: true,
         radius: 5,
         width: width,

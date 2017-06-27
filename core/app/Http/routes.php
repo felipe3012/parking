@@ -11,11 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-Route::get('home', 'HomeController@index');
+Route::get('/','HomeController@index');
  
 // Autenticación
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -26,6 +22,46 @@ Route::get('auth/logout', ['as' => 'auth/logout', 'uses' => 'Auth\AuthController
 Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
+
+//Empresas
+Route::resource('empresas','EmpresasController');
+Route::get('empresadel/{id}/{nombre}', 'EmpresasController@destroy')->name('empresadel');
+
+//clientes
+Route::resource('clientes','ClientesController');
+Route::get('clientedel/{id}', 'ClientesController@destroy')->name('clientedel');
+
+//tarifas
+Route::resource('tarifas','TarifasController');
+Route::get('tarifadel/{id}', 'TarifasController@destroy')->name('tarifadel');
+
+//servicios
+Route::resource('servicios','ServiciosController');
+Route::get('serviciodel/{id}', 'ServiciosController@destroy')->name('serviciodel');
+
+//tipo vehiculos
+Route::resource('tipovehiculos','TipoVehiculosController');
+Route::get('tipovehiculodel/{id}', 'TipoVehiculosController@destroy')->name('tipovehiculodel');
+
+//Convenios
+Route::resource('convenios','ConveniosController');
+Route::get('conveniodel/{id}', 'ConveniosController@destroy')->name('conveniodel');
+
+//Cortesias
+Route::resource('cortesias','CortesiasController');
+Route::get('cortesiadel/{id}', 'CortesiasController@destroy')->name('cortesiadel');
+
+//Facturas
+Route::resource('facturas','FacturasController');
+Route::get('facturadel/{id}', 'FacturasController@destroy')->name('facturadel');
+
+//Tickets
+Route::resource('tickets','TicketsController');
+Route::get('ticketsdel/{id}', 'TicketsController@destroy')->name('ticketsdel');
+
+//Cajas
+Route::resource('cajas','CajasController');
+Route::get('cajadel/{id}', 'CajasController@destroy')->name('cajadel');
 
 //Usuarios
 Route::resource('usuarios','UsuariosController');
@@ -50,6 +86,4 @@ Route::resource('configuraciones','ConfiguracionesController');
 Route::get('/path/to/remote/validator/{id}', 'UsuariosController@valid');
 Route::get('/path/to/remote/email/{id}', 'UsuariosController@unique');
 
-//email 
-
-//administrador
+Route::get('tic',function(){ return view('tickets.imprint');});

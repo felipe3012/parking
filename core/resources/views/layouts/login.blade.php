@@ -8,7 +8,7 @@
     <title>@yield('title') | {{env('APP_NAME')}}</title>
     @include('layouts.css')
 </head>
-<body id="app-layout">
+<body>
     @yield('content')
     @include('layouts.js')
 </body>

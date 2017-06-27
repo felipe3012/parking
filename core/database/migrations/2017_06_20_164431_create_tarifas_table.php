@@ -14,8 +14,8 @@ class CreateTarifasTable extends Migration
     {
         Schema::create('tarifas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('precio');
-            $table->integer('precio');
+            $table->float('valor');
+            $table->integer('id_tipo_vehiculo');
             $table->timestamps();
         });
     }

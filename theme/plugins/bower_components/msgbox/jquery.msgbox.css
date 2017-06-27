@@ -28,6 +28,7 @@
   padding:0 14px 2px;
   height:24px;
   cursor:pointer;
+  border-radius: 5px;
 }
 
 .jquery-msgbox-inputs

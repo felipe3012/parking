@@ -7,7 +7,7 @@
         <div class="col-md-12">
           <div class="white-box">
             <h3 class="box-title">Lista de usuarios <div class="box-tools pull-right form-inline hidden-xs">
-            {!!Html::decode(link_to_route('usuarios.create','<button type="button" class="btn btn-sm btn-warning "><i class="fa fa-plus"></i></button>',[],['class'=>'iframe','title'=>'Nuevo usuario','data-icon'=>'fa fa-plus']))!!}
+            {!!Html::decode(link_to_route('usuarios.create','<button type="button" class="btn btn-sm btn-warning "><i class="fa fa-plus"></i> Nuevo</button>',[],['class'=>'iframe','title'=>'Nuevo usuario','data-icon'=>'fa fa-plus']))!!}
             </div> </h3>
              <table class="table table-striped table-hover table-bordered center datatable">
             <thead>

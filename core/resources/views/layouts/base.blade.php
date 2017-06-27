@@ -33,7 +33,12 @@
         <div class="slimscrollright">
           <div class="rpanel-title"> Cambiar Contraseña <span><i class="ti-close right-side-toggle"></i></span> </div>
           <div class="r-panel-body">
-             
+              {!!Form::open(['route'=>'cambiar','method'=>'post','name'=>'frm','id'=>'frm','role'=>'form','data-toggle'=>'validator','class'=>'form-horizontal form-label-left'])!!}
+@include('forms.form_password')
+            <div align="center" class="form-group">
+                {!!Form::submit('Cambiar',['class'=>'btn btn-sm btn-primary btn-block','id'=>'send'])!!}
+            </div>
+            {!!Form::close()!!}
           </div>
         </div>
       </div>

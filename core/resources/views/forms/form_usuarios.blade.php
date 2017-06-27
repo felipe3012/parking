@@ -36,7 +36,7 @@
     </div>
 </div>
 <div class="item form-group">
-    {!!Html::decode(Form::label('nombre', 'Perfil
+    {!!Html::decode(Form::label('id_perfil', 'Perfil
     <span class="required"> * </span>',  ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!!Form::select('id_perfil', ['' => 'Seleccione un perfil']+$perfiles, null, ['required','data-error'=>'No ha seleccionado un perfil','class' => 'form-control'])!!}

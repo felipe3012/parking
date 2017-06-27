@@ -127,12 +127,13 @@ class FuncionalidadesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $nombre)
     {
         //
-        if (Funcionalidades::destroy($id)) {
+        try {
+            Funcionalidades::destroy($id);
             Session::flash('message-success', 'Funcionalidad ' . $nombre . ' eliminada correctamente');
-        } else {
+        } catch(Exception $e) {
             Session::flash('message-error', 'Error al eliminar funcionalidad' . $nombre);
         }
         return $this->retorno("funcionalidades");

@@ -6,7 +6,7 @@
 <div align="center" class="form-group">
     {!!Form::submit('Actualizar',['class'=>'btn btn-sm btn-primary','id'=>'send'])!!}
     <button class="btn btn-sm btn-warning" onclick="window.parent.location.href = '{{config('domains.Url')['public']}}funcionalidades'" type="button">
-        Cancelar
+      <i class="fa fa-close"></i> Cancelar
     </button>
 </div>
 {!!Form::close()!!}
