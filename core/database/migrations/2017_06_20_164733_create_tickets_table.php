@@ -15,8 +15,9 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('placa');
-            $table->dateTime('fecha_fin');
-            $table->integer('servicio')->nullable();
+            $table->dateTime('fecha_fin')->nullable();
+            $table->integer('servicio')->nullable(); 
+            $table->integer('id_tipo_vehiculo'); 
             $table->integer('estado')->nullable()->default(1);
             $table->timestamps();
         });
