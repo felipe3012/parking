@@ -12,7 +12,7 @@ class Convenios extends Model
      *
      * @var string
      */
-    protected $table = 'funcionalidades';
+    protected $table = 'convenios';
 
   /**
    *

@@ -4,11 +4,11 @@ namespace Parking\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Parking\Http\Requests;
-use Parking\Http\Controllers\Controller;
-use Session;
-use Auth;
 use Parking\Convenios;
+use Parking\Empresas;
+use Parking\Http\Controllers\Controller;
+use Parking\TipoVehiculos;
+use Session;
 
 class ConveniosController extends Controller
 {
@@ -52,7 +52,9 @@ class ConveniosController extends Controller
     public function create()
     {
         //
-        return view('convenios.new');
+        $tipovehiculos = TipoVehiculos::lists('nombre', 'id')->toArray();
+        $empresas      = Empresas::lists('nombre', 'nit')->toArray();
+        return view('convenios.new', compact('tipovehiculos', 'empresas'));
     }
 
     /**
@@ -64,8 +66,15 @@ class ConveniosController extends Controller
     public function store(Request $request)
     {
         //
+        $request['documento']= $request['id_em_us'];
         try {
             Convenios::create($request->all());
+            if ($request['tipo'] == 1) {
+            } else {
+               $cliente = Clientes::create($request->all());
+               Vehiculos::create(['placa'=>$request['placa'],'id_cliente'=>$cliente->id]);
+            }
+           
             Session::flash('message-success', 'convenio ' . $request['nombre'] . ' creada correctamente');
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al crear convenio' . $request['nombre']);
@@ -93,8 +102,10 @@ class ConveniosController extends Controller
     public function edit($id)
     {
         //
-        $convenio = $this->convenio;
-        return view('convenios.edit', compact('convenio'));
+        $convenio      = $this->convenio;
+        $tipovehiculos = TipoVehiculos::lists('nombre', 'id')->toArray();
+        $empresas      = Empresas::lists('nombre', 'nit')->toArray();
+        return view('convenios.edit', compact('convenio', 'tipovehiculos', 'empresas'));
     }
 
     /**
