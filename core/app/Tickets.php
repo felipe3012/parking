@@ -25,5 +25,5 @@ class Tickets extends Model
      *
      * @var array
      */
-      protected $fillable = ['id', 'placa','fecha_fin','servicio','estado'];
+      protected $fillable = ['id', 'placa','fecha_fin','servicio','estado', 'id_tipo_vehiculo'];
 }

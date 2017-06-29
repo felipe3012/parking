@@ -4,7 +4,7 @@
             <div class="row">
               <div class="col-sm-12 col-xs-12">
               {!!Form::open(['route'=>'tickets.store','method'=>'POST','name'=>'tickets','id'=>'frm','role'=>'form','data-toggle'=>'validator','class'=>'form-horizontal form-label-left'])!!}
-        
+         
                   <div class="form-group">
                     <label for="exampleInputuname">Placa</label>
                     <div class="input-group">
@@ -18,7 +18,7 @@
                     <label for="exampleInputEmail1">Tipo de vehiculo </label>
                     <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-car"></i></div>
-                      {!! Form::select('', []+$tipovehiculos, 1, ['data-error'=>'Campo requerido','required','class'=>'form-control']) !!}
+                      {!! Form::select('id_tipo_vehiculo', []+$tipovehiculos, 1, ['data-error'=>'Campo requerido','required','class'=>'form-control']) !!}
                     </div>
                     <div class="help-block with-errors"></div>
                   </div>
@@ -27,14 +27,14 @@
                     <label for="exampleInputEmail1">Servicio</label>
                     <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-shopping-cart"></i></div>
-                      {!! Form::select('', [""=>"Ninguno"]+$servicios, null, ['class'=>'form-control']) !!}
+                      {!! Form::select('servicio', ["0"=>"Ninguno"]+$servicios, null, ['class'=>'form-control']) !!}
                     </div>
                     <div class="help-block with-errors"></div>
                   </div>
 
-                  <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Facturar</button>
+                  {!!Form::submit('Registrar',['class'=>'btn btn-success','id'=>'send'])!!}
               
-{!!Form::close()!!}
+{!!Form::close()!!} 
 
               </div>
             </div>

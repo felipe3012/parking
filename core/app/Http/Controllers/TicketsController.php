@@ -8,7 +8,7 @@ use Parking\Http\Requests;
 use Session;
 use Redirect;
 use Parking\Tickets;
-
+use DB;
 class TicketsController extends Controller
 {
      /**
@@ -69,7 +69,14 @@ class TicketsController extends Controller
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al crear ticket' . $request['nombre']);
         }
-        return $this->retorno("tickets");
+
+        $placa = $request->placa;
+
+        $ticket = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios' , 'servicios.id' ,'=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->groupBy()->orderBy('tickets.created_at', 'DESC')->take(1)->get();
+
+        $cod = Tickets::select(DB::raw("lpad(id::text, 10, '0'::text)"))->orderBy('tickets.created_at', 'DESC')->take(1)->get();
+
+        return View('tickets.imprint',compact('ticket', 'cod')); 
     }
 
     /**
@@ -133,4 +140,6 @@ class TicketsController extends Controller
         }
         return $this->retorno("tickets");
     }
+
 }
+ 

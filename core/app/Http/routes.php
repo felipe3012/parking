@@ -54,11 +54,12 @@ Route::get('cortesiadel/{id}/{name}', 'CortesiasController@destroy')->name('cort
 //Facturas
 Route::resource('facturas','FacturasController');
 Route::get('facturadel/{id}', 'FacturasController@destroy')->name('facturadel');
+Route::get('facturanew/{id}', 'FacturasController@facturanew')->name('facturanew');
 
 //Tickets
 Route::resource('tickets','TicketsController');
-Route::get('ticketsdel/{id}', 'TicketsController@destroy')->name('ticketsdel');
-
+Route::get('ticketsdel/{id}', 'TicketsController@destroy')->name('ticketsdel');;
+ 
 //Cajas
 Route::resource('cajas','CajasController');
 Route::get('cajadel/{id}', 'CajasController@destroy')->name('cajadel');

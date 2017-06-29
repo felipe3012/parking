@@ -13,7 +13,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Barra</label>
                     <div class="input-group">
-                      <input type="email" class="form-control" id="exampleInputEmail1">
+                      <input type="text" autofocus class="form-control barra" id="exampleInputEmail1">
                       <div class="input-group-addon"><i class="fa fa-bookmark"></i></div>
                     </div>
                   </div>
