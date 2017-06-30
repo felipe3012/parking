@@ -96,7 +96,7 @@ class ServiciosController extends Controller
         $tipovehiculos = TipoVehiculos::lists('nombre', 'id')->toArray();
         return view('servicios.edit', compact('servicio', 'tipovehiculos'));
     }
-
+ 
     /**
      * Update the specified resource in storage.
      *

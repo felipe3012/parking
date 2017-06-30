@@ -4,7 +4,7 @@
             <div class="row">
               <div class="col-sm-12 col-xs-12">
               {!!Form::open(['route'=>'tickets.store','method'=>'POST','name'=>'tickets','id'=>'frm','role'=>'form','data-toggle'=>'validator','class'=>'form-horizontal form-label-left'])!!}
-         {!! Form::hidden('usuario', Auth::user()->id, []) !!}
+         {!! Form::hidden('cajero', Auth::user()->id, []) !!}
                   <div class="form-group">
                     <label for="exampleInputuname">Placa</label>
                     <div class="input-group">

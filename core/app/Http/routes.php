@@ -34,7 +34,7 @@ Route::get('clientedel/{id}', 'ClientesController@destroy')->name('clientedel');
 //tarifas
 Route::resource('tarifas','TarifasController');
 Route::get('tarifadel/{id}', 'TarifasController@destroy')->name('tarifadel');
-
+  
 //servicios
 Route::resource('servicios','ServiciosController');
 Route::get('serviciodel/{id}', 'ServiciosController@destroy')->name('serviciodel');
@@ -58,7 +58,7 @@ Route::get('facturanew/{id}', 'FacturasController@facturanew')->name('facturanew
 
 //Tickets
 Route::resource('tickets','TicketsController');
-Route::get('ticketsdel/{id}', 'TicketsController@destroy')->name('ticketsdel');;
+Route::get('ticketsdel/{id}/{name}', 'TicketsController@destroy')->name('ticketsdel');;
  
 //Cajas
 Route::resource('cajas','CajasController');

@@ -22,6 +22,7 @@ class CreateTicketsTable extends Migration
             $table->integer('estado')->nullable()->default(1);
             $table->integer('cajero');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
