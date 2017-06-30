@@ -4,8 +4,10 @@ namespace Parking\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Parking\TipoVehiculos;
+use Parking\Configuraciones;
 use Parking\Servicios;
+use Parking\Tickets;
+use Parking\TipoVehiculos;
 
 class HomeController extends Controller
 {
@@ -20,7 +22,16 @@ class HomeController extends Controller
         if (Auth::check()) {
             $servicios     = Servicios::lists('nombre', 'id')->toArray();
             $tipovehiculos = TipoVehiculos::lists('nombre', 'id')->toArray();
-            return view('home', compact('tipovehiculos', 'servicios'));
+            $carros        = Tickets::whereNull('fecha_fin')->where('id_tipo_vehiculo', 2)->count();
+            $motos         = Tickets::whereNull('fecha_fin')->where('id_tipo_vehiculo', 1)->count();
+            $stock         = Configuraciones::find(1);
+            $stock_carros =0;
+            $stock_motos = 0;
+            if (count($stock) > 0) {
+                $stock_carros = $stock->stock_carros - $carros;
+                $stock_motos  = $stock->stock_motos - $motos;
+            }
+            return view('home', compact('tipovehiculos', 'servicios', 'carros', 'motos', 'stock_carros', 'stock_motos'));
         }
         return view('auth.login');
 

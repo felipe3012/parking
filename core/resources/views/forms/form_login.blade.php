@@ -1,5 +1,5 @@
  {!! Form::open(['route'=>'auth/login','method'=>'post','name'=>'frm','id'=>'frm','role'=>'form','data-toggle'=>'validator','class'=>"form-horizontal form-material", 'id'=>"loginform" ]) !!}
-   <div style="text-align: center;">{!!Html::image('theme/plugins/images/parkinglot.jpg',null,['width'=>'200'])!!}
+   <div style="text-align: center;">{!!Html::image('theme/plugins/images/parkinglot.jpg',null,['width'=>'300'])!!}
         <h3 class="box-title m-b-20">Ingreso para funcionarios</h3></div>
         <div class="form-group ">
           <div class="col-xs-12">

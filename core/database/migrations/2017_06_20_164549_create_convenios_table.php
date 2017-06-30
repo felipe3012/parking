@@ -20,6 +20,7 @@ class CreateConveniosTable extends Migration
             $table->integer('id_empresa_cliente');
             $table->integer('numero_carros')->nullable();
             $table->integer('numero_motos')->nullable();
+            $table->integer('usuario');
             $table->timestamps();
         });
     }

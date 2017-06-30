@@ -16,6 +16,7 @@ class CreateCortesiasTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('tiempo_cortesia');
+            $table->string('usuario');
             $table->timestamps();
         });
     }

@@ -21,7 +21,9 @@ class CreateConfiguracionesTable extends Migration
             $table->integer('stock_carros')->nullable();
             $table->integer('stock_motos')->nullable();
             $table->string('tiempo_gracia',20);
-            $table->text('logo');
+            $table->text('logo')->nullable();
+            $table->integer('usuario');
+            $table->integer('usuario_update')->nullable();
             $table->timestamps();
         }); 
     }

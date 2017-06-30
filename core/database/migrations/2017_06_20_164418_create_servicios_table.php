@@ -18,6 +18,7 @@ class CreateServiciosTable extends Migration
             $table->text('descripcion', 100);
             $table->float('valor');
             $table->integer('id_tipo_vehiculo');
+            $table->integer('usuario');
             $table->timestamps();
             $table->foreign('id_tipo_vehiculo')->references('id')->on('tipo_vehiculos');
         });

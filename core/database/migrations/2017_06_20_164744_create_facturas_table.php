@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateFacturasTable extends Migration
 {
@@ -13,7 +13,19 @@ class CreateFacturasTable extends Migration
     public function up()
     {
         Schema::create('facturas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('servicio')->nullable();
+            $table->string('valor_servicio')->nullable();
+            $table->string('tipo_vehiculo');
+            $table->string('tiempo_gracia')->nullable();
+            $table->string('tiempo_cortesia')->nullable();
+            $table->string('tiempo');
+            $table->string('tarifa');
+            $table->string('subtotal');
+            $table->string('iva');
+            $table->string('iva_fijado'); 
+            $table->string('total');
+            $table->string('cajero');
             $table->timestamps();
         });
     }

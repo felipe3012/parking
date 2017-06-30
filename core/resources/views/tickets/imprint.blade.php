@@ -4,50 +4,52 @@
     </head>
     <body onload="printHTML();">
    <div>{!!Html::image('theme/plugins/images/log.png',null,['width'=>'40','style'=>'position:fixed;'])!!}</div>
-   <div style="position: fixed;left: 200px;"><strong>N° 104</strong></div>
+        <div style="position: fixed; left:200px;"><strong>N° {{$ticket->id}}</strong></div>
         <table>
             <tr>
-                <td style="text-align: center;" ><strong>La 57</strong></td>
+                <td style="text-align: center;" ><strong>{{$empresa->nombre}}</strong>   </td>
             </tr>
             <tr>
-                <td  style="text-align: center;" > Nit 123456789-1</td>
+                <td  style="text-align: center;" > Nit {{$empresa->nit}} </td>
             </tr>
             <tr>
-                <td>Dirección: calle 11 # 23 - 22 </td>
+                <td>Dirección: {{$empresa->direccion}} </td>
             </tr>
             <tr>
-                <td>Telefono: 6459871 - 3186551032</td>
+                <td>Fecha: <?php $fecha_actual = date('Y-m-d'); echo $fecha_actual; ?> </td>
             </tr>
             <tr>
-                <td>Servicio: Parqueo + Lavado</td>
+                <td>Telefono:  {{$empresa->telefono}}</td>
+            </tr>
+            <tr>
+                <td>Servicio: Parqueo +{{$ticket->servicio}}</td>
             </tr>
         </table>
         <br/>
          <table style="border:1px dotted" width="250">
             <tr>
-                <td style="text-align: center;">Tipo<br/>Vehiculo</td>
-                <td style="text-align: center;">Placa</td>
-                <td style="text-align: center;">Hora<br/> ingreso</td>
+                <td>Tipo <br/>Vehiculo  </td>
+                <td>Placa  </td>
+                <td>Hora <br/> ingreso  </td>
             </tr>
-             <tr>
-                <td style="text-align: center;">Carro</td>
-                <td style="text-align: center;text-transform: uppercase;">  xhl-125</td>
-                <td style="text-align: center;">08:00 </td>
+             <tr>     
+                <td>{{$ticket->vehiculo}}</td>
+                <td style="text-transform: uppercase;">{{$ticket->placa}}</td>
+                <td>{{$ticket->hora}}</td>
             </tr>
         </table>
         <br/>
         <table>
-            <tr><td align="center" style="text-align: center;">{!!DNS1D::getBarcodeSVG("4445645656", "CODABAR")!!}</td></tr>
-
+            <tr><td align="center" style="text-align: center;">{!!DNS1D::getBarcodeSVG("$ticket->cod", "CODABAR")!!}</td></tr>
         </table>
     <script type="text/javascript">
        function printHTML() {
   if (window.print) {
     window.print();
-    window.location.href = "http://localhost:83/parking/";
-                    }
-                            }
-    document.addEventListener("DOMContentLoaded", function(event) {
+    window.location.href = "http://localhost:"+<?php echo $_SERVER['SERVER_PORT'];?>+"/parking/";
+  }
+}
+document.addEventListener("DOMContentLoaded", function(event) {
   printHTML();
 });
     </script>

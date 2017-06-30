@@ -16,6 +16,7 @@ class CreateTarifasTable extends Migration
             $table->bigIncrements('id');
             $table->float('valor');
             $table->integer('id_tipo_vehiculo');
+            $table->integer('usuario');
             $table->timestamps();
         });
     }

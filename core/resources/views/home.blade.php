@@ -21,12 +21,14 @@
 @stop
 @section('script')
 <script type="text/javascript">
-  $(document).on('change', '#placa', function(event) {
+$(document).ready(function(){
+  $(document).on('keyup', '#placa', function(event) {
     var caja = $(this).val();
     $("#placatext").html(caja);
     if($(this).val()==""){
          $("#placatext").html("---:---");
     }
   });
+   });
 </script>
 @stop

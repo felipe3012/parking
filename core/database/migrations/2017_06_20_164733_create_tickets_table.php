@@ -17,8 +17,10 @@ class CreateTicketsTable extends Migration
             $table->string('placa');
             $table->dateTime('fecha_fin')->nullable();
             $table->integer('servicio')->nullable(); 
-            $table->integer('id_tipo_vehiculo'); 
+            $table->integer('id_tipo_vehiculo');
+            $table->integer('cortesia')->nullable()->default(0);  
             $table->integer('estado')->nullable()->default(1);
+            $table->integer('cajero');
             $table->timestamps();
         });
     }

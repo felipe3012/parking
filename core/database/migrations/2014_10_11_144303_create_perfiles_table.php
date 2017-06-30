@@ -15,6 +15,7 @@ class CreatePerfilesTable extends Migration
         Schema::create('perfiles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->String('nombre');
+            $table->integer('usuario');
             $table->timestamps();
         });
     }

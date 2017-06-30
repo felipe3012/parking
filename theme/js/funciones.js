@@ -150,7 +150,7 @@ $(document).ready(function(){
         var icon = 'fa fa-file';
         var sub = '';
         var dato = $(this).val();
-        var ruta = 'http://localhost/parking/facturanew/'+dato;
+        var ruta = "http://localhost:83/parking/facturanew/"+dato;
         $("#modal-iframe").iziModal({
         title: title,
         subtitle: sub,

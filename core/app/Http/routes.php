@@ -64,6 +64,9 @@ Route::get('ticketsdel/{id}', 'TicketsController@destroy')->name('ticketsdel');;
 Route::resource('cajas','CajasController');
 Route::get('cajadel/{id}', 'CajasController@destroy')->name('cajadel');
 
+//reportes
+Route::resource('reportes','ReportesController');
+
 //Usuarios
 Route::resource('usuarios','UsuariosController');
 Route::get('usuariodel/{id}', 'UsuariosController@destroy')->name('usuariodel');
