@@ -8,6 +8,8 @@ use Parking\Http\Requests;
 use Session;
 use Redirect;
 use Parking\Tickets;
+use Parking\TipoVehiculos;
+use Parking\Servicios;
 use DB;
 class TicketsController extends Controller
 {
@@ -37,12 +39,12 @@ class TicketsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-        $tickets = tickets::all();
+    { 
+        // 
+        $tickets = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora, tickets.estado"))->join('servicios' , 'servicios.id' ,'=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'tickets.id_tipo_vehiculo')->orderBy('tickets.created_at', 'DESC')->get();
         return view('tickets.admin', compact('tickets'));
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      *
@@ -90,7 +92,7 @@ class TicketsController extends Controller
         //
     }
 
-    /**
+    /** 
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -99,8 +101,13 @@ class TicketsController extends Controller
     public function edit($id)
     {
         //
-        $ticket        = $this->ticket;
-        return view('tickets.edit', compact('ticket'));
+        $ticket = Tickets::select(DB::raw("tickets.id as id, placa, tickets.servicio, tickets.id_tipo_vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora, tickets.estado"))->join('servicios' , 'servicios.id' ,'=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->groupBy()->orderBy('tickets.created_at', 'DESC')->find($id);
+
+        $tipoVehiculo = TipoVehiculos::lists('nombre', 'id')->toArray();
+
+        $servicio = Servicios::lists('nombre', 'id')->toArray();
+        
+        return view('tickets.edit', compact('ticket', 'tipoVehiculo', 'servicio'));
     }
 
     /**
@@ -133,7 +140,8 @@ class TicketsController extends Controller
     {
         //
         try {
-            Tickets::destroy($id);
+            $ticket = Tickets::find($id);
+            $ticket->delete();
             Session::flash('message-success', 'ticket ' . $nombre . ' eliminada correctamente');
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al eliminar ticket' . $nombre);

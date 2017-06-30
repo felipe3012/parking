@@ -19,7 +19,8 @@ class CreateTicketsTable extends Migration
             $table->integer('servicio')->nullable(); 
             $table->integer('id_tipo_vehiculo'); 
             $table->integer('estado')->nullable()->default(1);
-            $table->timestamps();
+            $table->timestamps(); 
+            $table->softDeletes();
         });
     }
 
