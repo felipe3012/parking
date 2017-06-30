@@ -17,8 +17,9 @@ class CreateConveniosTable extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->integer('tipo_convenio');
-            $table->integer('numero_carros');
-            $table->integer('numero_motos');
+            $table->integer('id_empresa_cliente');
+            $table->integer('numero_carros')->nullable();
+            $table->integer('numero_motos')->nullable();
             $table->timestamps();
         });
     }
