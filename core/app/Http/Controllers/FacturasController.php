@@ -11,7 +11,9 @@ use Parking\Http\Controllers\Controller;
 use Parking\Servicios;
 use Parking\Tarifas;
 use Parking\Tickets;
+use Parking\TipoVehiculos;
 use Session;
+use Auth;
 
 class FacturasController extends Controller
 {
@@ -152,29 +154,47 @@ class FacturasController extends Controller
         $empresa        = Configuraciones::find(1);
         $valor_servicio = Servicios::where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->find($ticket->servicio)->get();
         $tarifa         = Tarifas::select('valor')->where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->groupBy('id')->havingRaw("id = max(id)")->get();
+        $tipo           = TipoVehiculos::find($ticket->id_tipo_vehiculo);
 
-        $total    = 0;
-        $subtotal = 0;
-        $iva      = 0;
-        $servicio = 0;
+        $total        = 0;
+        $subtotal     = 0;
+        $iva          = 0;
+        $servicio     = 0;
+        $des_servicio = null;
+        $tarif        = 0;
         if (count($valor_servicio) > 0) {
-            $servicio = $valor_servicio[0]->valor;
+            $servicio     = $valor_servicio[0]->valor;
+            $des_servicio = $valor_servicio[0]->nombre;
+        }
+
+        if (count($tarifa) > 0) {
+            $tarif = $tarifa[0]->valor;
         }
 
         $minutos  = $this->minutos_transcurridos($ticket->created_at, $ticket->fecha_fin);
-        $valor    = round((($minutos - $empresa->tiempo_gracia) / 60)) * $tarifa[0]->valor;
+        $valor    = (($minutos - $empresa->tiempo_gracia) / 60) * $tarif;
         $subtotal = $servicio + $valor;
         $iva      = 0;
         if ($empresa->iva > 0) {
             $iva = $subtotal * ($empresa->iva / 100);
         }
-        $total = $subtotal + $empresa->iva;
+        $total = $subtotal + $iva;
 
-        $valores= [$minutos, $valor, $subtotal, $iva, $total];
-        
-        $factura = Facturas::create();
-
-        return view('facturas.generada', compact('ticket', 'empresa', 'valor_servicio', 'tarifa','valores'));
+        $factura = Facturas::create([
+            'cajero'          => Auth::user()->id,
+            'servicio' => $des_servicio,
+            'valor_servicio'  => $servicio,
+            'tipo_vehiculo'   => $tipo->nombre,
+            'tiempo_gracia'  => $empresa->tiempo_gracia,
+            'tiempo_cortesia' => $des_tiempo,
+            'tiempo'          => $minutos,
+            'tarifa'          => $tarif,
+            'subtotal'        => $subtotal,
+            'iva'             => $iva,
+            'iva_fijado'      => $empresa->iva,
+            'total'           => round($total)]);
+        dd($factura);
+        return view('facturas.generada', compact('factura'));
     }
 
 /**
@@ -196,7 +216,7 @@ class FacturasController extends Controller
  * @param  [type] $id [description]
  * @return [type]     [description]
  */
-    public function facturanew($id)
+    public function facturanew(Request $request , $id)
     {
         $ticket = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->whereRaw(" tickets.id = (select lpad($id::text, 10))::int ")->where('tickets.id', $id)->get();
         if (count($ticket) > 0) {

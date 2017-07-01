@@ -2,9 +2,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
-<meta content="" name="description"/>
-<meta content="" name="keywords"/>
-<meta content="" name=""/>
+<meta content="Sistema de gestion de parqueaderos" name="description"/>
+<meta content="parking, parkinglot, estacionamiento, software" name="keywords"/>
+<meta content="" name="Red Dan Technology"/>
+ <link href="{{asset('favicon.ico') }}" rel="icon"/>
+
 <!-- Bootstrap Core CSS -->
 {!!Html::style('theme/bootstrap/dist/css/bootstrap.min.css')!!}
 <!-- Menu CSS -->
