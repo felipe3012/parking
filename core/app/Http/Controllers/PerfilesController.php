@@ -9,6 +9,7 @@ use Parking\Funcionalidades;
 use Parking\Perfiles;
 use Parking\Permisos;
 use Session;
+use Auth;
 
 class PerfilesController extends Controller
 {
@@ -17,7 +18,7 @@ class PerfilesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => []]);
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
         $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
     }
 

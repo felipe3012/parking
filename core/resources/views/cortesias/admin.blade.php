@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('title','Cortesias | Administrar')
 @section('name',' <i class="icon-badge fa-fw"></i> Cortesias')
-@section('breadcum','<li>Cortesias</li><li class="active">Administrar</li>')
+@section('breadcrumb','<li>Cortesias</li><li class="active">Administrar</li>')
 @section('content') 
   <div class="row">
         <div class="col-md-12">

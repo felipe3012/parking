@@ -4,20 +4,21 @@ namespace Parking;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Servicios extends Model
+class Cajas extends Model
 {
+         //
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'servicios';
+    protected $table = 'cajas';
 
-    /**
-     *
-     *
-     * @var string
-     */
+  /**
+   *
+   *
+   * @var string
+   */
     protected $primaryKey = 'id';
 
     /**
@@ -25,5 +26,6 @@ class Servicios extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'nombre','descripcion','valor','id_tipo_vehiculo','usuario'];
+    protected $fillable = ['id','documento','nombre','telefono'];
+
 }

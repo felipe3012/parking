@@ -9,7 +9,7 @@
 <div class="item form-group">
     {!!Html::decode(Form::label('email', 'Email <span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!!Form::email('email', null,['required'=>'required' ,'id'=>'email', 'class'=>'form-control col-md-7 col-xs-12','data-remote'=>'/parking/path/to/remote/email/','data-remote-error'=>'El email definido no esta disponible'])!!}
+        {!!Form::text('email', null,['required'=>'required' ,'id'=>'email', 'class'=>'form-control col-md-7 col-xs-12','data-remote'=>'/parkinglot/path/to/remote/email/','data-remote-error'=>'El email definido no esta disponible'])!!}
         <div class="help-block with-errors">
         </div>
     </div>

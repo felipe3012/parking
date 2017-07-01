@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('title','Empresas | Administrar')
 @section('name',' <i class="fa fa-building-o"></i> Empresas')
-@section('breadcum','<li>Empresas</li><li class="active">Administrar</li>')
+@section('breadcrumb','<li>Empresas</li><li class="active">Administrar</li>')
 @section('content')
   <div class="row">
         <div class="col-md-12">

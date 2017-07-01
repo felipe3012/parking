@@ -2,23 +2,22 @@
             <h3 class="box-title m-b-0" style="text-align: center;">Salida</h3>
             <div class="row">
               <div class="col-sm-12 col-xs-12">
-                <form>
+                
                   <div class="form-group">
-                    <label for="exampleInputuname">Placa</label>
+                    <label for="placa">Placa</label>
                     <div class="input-group">
-                      <input type="text" class="form-control"  id="exampleInputuname">
-                      <div class="input-group-addon"><i class="fa fa-flickr"></i></div>
+                      {!! Form::text('placa', null, ['class'=>"form-control"]) !!}
+                      <div class="input-group-addon"><button class="btn btn-success" title="Buscar" type="submit" ><i class="fa fa-search"></i></button></div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Barra</label>
+                    <label for="barra">Barra</label>
                     <div class="input-group">
-                      <input type="text" autofocus class="form-control barra" id="exampleInputEmail1">
+                    {!! Form::text('barra', null, ['autofocus', 'class'=>"form-control barra"]) !!}
                       <div class="input-group-addon"><i class="fa fa-bookmark"></i></div>
                     </div>
                   </div>
 
-                </form>
               </div>
             </div>
           </div>

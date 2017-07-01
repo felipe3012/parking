@@ -40,13 +40,13 @@
         </table>
         <br/>
         <table>
-            <tr><td align="center" style="text-align: center;">{!!DNS1D::getBarcodeSVG("$ticket->cod", "CODABAR")!!}</td></tr>
+            <tr><td align="center" style="text-align: center;">{!!DNS1D::getBarcodeSVG($ticket->cod, "CODABAR")!!}</td></tr>
         </table>
     <script type="text/javascript">
        function printHTML() {
   if (window.print) {
     window.print();
-    window.location.href = "http://localhost:"+<?php echo $_SERVER['SERVER_PORT'];?>+"/parking/";
+    window.location.href = "http://localhost:"+<?php echo $_SERVER['SERVER_PORT'];?>+"/parkinglot/";
   }
 }
 document.addEventListener("DOMContentLoaded", function(event) {

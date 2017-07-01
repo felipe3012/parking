@@ -2,13 +2,14 @@
 
 namespace Parking\Http\Controllers;
 
+use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Parking\Configuraciones;
+use Parking\Servicios;
 use Parking\Tickets;
 use Parking\TipoVehiculos;
-use Parking\Servicios;
 use Session;
 
 class TicketsController extends Controller
@@ -18,7 +19,7 @@ class TicketsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => []]);
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
         $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
     }
 
@@ -39,12 +40,12 @@ class TicketsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-        // 
-        $tickets = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora, tickets.estado"))->join('servicios' , 'servicios.id' ,'=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'tickets.id_tipo_vehiculo')->orderBy('tickets.created_at', 'DESC')->get();
+    {
+        //
+        $tickets = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora, tickets.estado"))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'tickets.id_tipo_vehiculo')->orderBy('tickets.created_at', 'DESC')->get();
         return view('tickets.admin', compact('tickets'));
     }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -66,20 +67,19 @@ class TicketsController extends Controller
     {
         //
         try {
-            $tic = Tickets::where('placa',$request['placa'])->whereNull('fecha_fin')->where('id_tipo_vehiculo',$request['id_tipo_vehiculo'])->get();
+            $tic = Tickets::where('placa', $request['placa'])->whereNull('fecha_fin')->where('id_tipo_vehiculo', $request['id_tipo_vehiculo'])->get();
             if (count($tic) == 0) {
-                $tickets = Tickets::create($request->all());
-
-            Session::flash('message-success', 'ticket creado correctamente');
-                $id = $tickets->id;
+                $request['cajero'] = Auth::user()->id;
+                $tickets           = Tickets::create($request->all());
 
                 $ticket = Tickets::select(DB::raw("tickets.id as id, placa,
-                lpad(tickets.id::text, 10, '0'::text) as cod, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->find($id);
+                lpad(tickets.id::text, 10, '0'::text) as cod, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->find(3);
 
                 $empresa = Configuraciones::find(1);
+                Session::flash('message-success', 'ticket creado correctamente');
                 return View('tickets.imprint', compact('ticket', 'empresa'));
             } else {
-              Session::flash('message-error', 'El tickets ya se encuentra registrado');
+                Session::flash('message-error', 'El tickets ya se encuentra registrado');
             }
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al registrar ticket');
@@ -98,7 +98,7 @@ class TicketsController extends Controller
         //
     }
 
-    /** 
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -108,12 +108,12 @@ class TicketsController extends Controller
     {
         //
 
-        $ticket = Tickets::select(DB::raw("tickets.id as id, placa, tickets.servicio, tickets.id_tipo_vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora, tickets.estado"))->join('servicios' , 'servicios.id' ,'=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->groupBy()->orderBy('tickets.created_at', 'DESC')->find($id);
+        $ticket = Tickets::select(DB::raw("tickets.id as id, placa, tickets.servicio, tickets.id_tipo_vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora, tickets.estado"))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->groupBy()->orderBy('tickets.created_at', 'DESC')->find($id);
 
         $tipoVehiculo = TipoVehiculos::lists('nombre', 'id')->toArray();
 
         $servicio = Servicios::lists('nombre', 'id')->toArray();
-        
+
         return view('tickets.edit', compact('ticket', 'tipoVehiculo', 'servicio'));
 
     }

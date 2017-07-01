@@ -138,7 +138,8 @@ $(document).ready(function() {
     }
     // Colorpicker
 
-    
+     $(".select2").select2();
+     $('.selectpicker').selectpicker();
 
 $(document).ready(function(){
     $(".barra").change(function(){
@@ -150,7 +151,7 @@ $(document).ready(function(){
         var icon = 'fa fa-file';
         var sub = '';
         var dato = $(this).val();
-        var ruta = "http://localhost:83/parking/facturanew/"+dato;
+        var ruta = "http://localhost/parkinglot/facturanew/"+dato;
         $("#modal-iframe").iziModal({
         title: title,
         subtitle: sub,
@@ -171,3 +172,14 @@ $(document).ready(function(){
     $("#modal-iframe").iziModal('open', event);
     });
 });
+
+  $('.datatable-order').DataTable({
+ order: [[3, "asc"],[0, "asc"]]
+});
+
+    jQuery('.mydatepicker, #datepicker').datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd',
+        todayHighlight: true,
+        locale: 'es'
+    });

@@ -4,10 +4,12 @@ namespace Parking\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Parking\Clientes;
 use Parking\Convenios;
 use Parking\Empresas;
 use Parking\Http\Controllers\Controller;
 use Parking\TipoVehiculos;
+use Parking\Vehiculos;
 use Session;
 
 class ConveniosController extends Controller
@@ -17,7 +19,7 @@ class ConveniosController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => []]);
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
         $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
     }
 
@@ -66,15 +68,25 @@ class ConveniosController extends Controller
     public function store(Request $request)
     {
         //
-        $request['documento']= $request['id_em_us'];
+        $request['documento'] = $request['id_empresa_cliente'];
+        if (empty($request['numero_carros'])) {
+            $request['numero_carros'] = 0;
+        }
+        if (empty($request['numero_motos'])) {
+            $request['numero_motos'] = 0;
+        }
         try {
             Convenios::create($request->all());
-            if ($request['tipo'] == 1) {
+            if ($request['tipo_convenio'] == 1) {
+
             } else {
-               $cliente = Clientes::create($request->all());
-               Vehiculos::create(['placa'=>$request['placa'],'id_cliente'=>$cliente->id]);
+                $cliente = Clientes::create($request->all());
+                if ($cliente) {
+                    Vehiculos::create(['placa' => $request['placa'], 'id_cliente' => $cliente->id,'usuario'=>$request['usuario']]);
+                }
+
             }
-           
+
             Session::flash('message-success', 'convenio ' . $request['nombre'] . ' creada correctamente');
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al crear convenio' . $request['nombre']);

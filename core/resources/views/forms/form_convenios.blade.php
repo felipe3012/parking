@@ -1,8 +1,8 @@
 <div class="item form-group">
 {!!Html::decode(Form::label('', '', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::radio('tipo', 1, '', ['required','class'=>'tipo']) !!} Convenio
-        {!! Form::radio('tipo', 2, '', ['required','class'=>'tipo']) !!} Mensualidad
+        {!! Form::radio('tipo_convenio', 1, '', ['required','class'=>'tipo']) !!} Convenio
+        {!! Form::radio('tipo_convenio', 2, '', ['required','class'=>'tipo']) !!} Mensualidad
         <div class="help-block with-errors">
         </div>
     </div>
@@ -28,9 +28,9 @@
 </div>
 
 <div class="item form-group">
-    {!!Html::decode(Form::label('id_em_us', 'Empresas<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
+    {!!Html::decode(Form::label('id_empresa_cliente', 'Empresas<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('id_em_us', [""=>"Seleccione una empresa"]+$empresas, null, ['id'=>'nit','required','data-error'=>'Campo requerido', 'class'=>'form-control col-md-7 col-xs-12']) !!}
+        {!! Form::select('id_empresa_cliente', [""=>"Seleccione una empresa"]+$empresas, null, ['id'=>'nit','required','data-error'=>'Campo requerido', 'class'=>'form-control col-md-7 col-xs-12']) !!}
         <div class="help-block with-errors">
         </div>
     </div>
@@ -39,9 +39,9 @@
 
 <div id="mensualidad">
 <div class="item form-group">
-    {!!Html::decode(Form::label('id_em_us', 'Documento<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
+    {!!Html::decode(Form::label('id_empresa_cliente', 'Documento<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!!Form::text('id_em_us', null,['id'=>'documento','required','data-error'=>'Campo requerido', 'class'=>'form-control col-md-7 col-xs-12'])!!}
+        {!!Form::text('id_empresa_cliente', null,['id'=>'documento','required','data-error'=>'Campo requerido', 'class'=>'form-control col-md-7 col-xs-12'])!!}
         <div class="help-block with-errors">
         </div>
     </div>
@@ -88,7 +88,7 @@
 <div class="item form-group">
     {!!Html::decode(Form::label('fecha_inicio', 'Fecha Inicio<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!!Form::text('fecha_inicio', null,['required','data-error'=>'Campo requerido', 'class'=>'form-control col-md-7 col-xs-12'])!!}
+        {!!Form::text('fecha_inicio', null,['required','data-error'=>'Campo requerido', 'class'=>'mydatepicker form-control col-md-7 col-xs-12'])!!}
         <div class="help-block with-errors">
         </div>
     </div>
@@ -97,7 +97,7 @@
 <div class="item form-group">
     {!!Html::decode(Form::label('fecha_fin', 'Fecha Fin<span class="required"> * </span>', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']))!!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!!Form::text('fecha_fin', null,['required','data-error'=>'Campo requerido', 'class'=>'form-control col-md-7 col-xs-12'])!!}
+        {!!Form::text('fecha_fin', null,['required','data-error'=>'Campo requerido', 'class'=>'mydatepicker form-control col-md-7 col-xs-12'])!!}
         <div class="help-block with-errors">
         </div>
     </div>

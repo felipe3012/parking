@@ -26,5 +26,5 @@ class Funcionalidades extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','nombre','peso','padre','icono','referencia'];
+    protected $fillable = ['id','nombre','padre','icono'];
 }

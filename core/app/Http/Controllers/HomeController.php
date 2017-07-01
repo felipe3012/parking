@@ -11,6 +11,15 @@ use Parking\TipoVehiculos;
 
 class HomeController extends Controller
 {
+
+    /**
+     * [__construct description]
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +34,8 @@ class HomeController extends Controller
             $carros        = Tickets::whereNull('fecha_fin')->where('id_tipo_vehiculo', 2)->count();
             $motos         = Tickets::whereNull('fecha_fin')->where('id_tipo_vehiculo', 1)->count();
             $stock         = Configuraciones::find(1);
-            $stock_carros =0;
-            $stock_motos = 0;
+            $stock_carros  = 0;
+            $stock_motos   = 0;
             if (count($stock) > 0) {
                 $stock_carros = $stock->stock_carros - $carros;
                 $stock_motos  = $stock->stock_motos - $motos;

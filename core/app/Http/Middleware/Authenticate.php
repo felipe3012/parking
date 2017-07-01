@@ -4,6 +4,7 @@ namespace Parking\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Session;
 
 class Authenticate
 {
@@ -38,6 +39,7 @@ class Authenticate
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
+                Session::flash('message-error', 'Estas intentando acceder de forma no autorizada');
                 return redirect()->guest('auth/login');
             }
         }

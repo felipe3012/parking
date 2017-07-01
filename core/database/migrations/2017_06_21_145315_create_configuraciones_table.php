@@ -23,6 +23,7 @@ class CreateConfiguracionesTable extends Migration
             $table->string('tiempo_gracia',20);
             $table->text('logo')->nullable();
             $table->integer('usuario');
+            $table->float('iva')->nullable()->default(0);
             $table->integer('usuario_update')->nullable();
             $table->timestamps();
         }); 

@@ -19,7 +19,7 @@ class UsuariosController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => []]);
+        $this->middleware('auth', ['only' => ['index','create','edit','show','update','destroy','valid','change']]);
         $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
     }
 

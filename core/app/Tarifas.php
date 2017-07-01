@@ -26,5 +26,5 @@ class Tarifas extends Model
      *
      * @var array
      */
-      protected $fillable = ['id', 'nombre','valor','id_tipo_vehiculo'];
+      protected $fillable = ['id', 'nombre','valor','id_tipo_vehiculo','usuario'];
 }

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('title','Perfiles | Administrar')
 @section('name',' <i class="fa fa-users"></i> Perfiles')
-@section('breadcum','<li>Perfiles</li><li class="active">Administrar</li>')
+@section('breadcrumb','<li>Perfiles</li><li class="active">Administrar</li>')
 @section('content')
   <div class="row">
         <div class="col-md-12">

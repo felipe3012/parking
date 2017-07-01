@@ -17,7 +17,7 @@ class TipoVehiculosController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => []]);
+        $this->middleware('auth', ['only' => ['index','create','edit','show','update','destroy']]);
         $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
     }
 

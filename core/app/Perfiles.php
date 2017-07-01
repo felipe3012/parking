@@ -27,5 +27,5 @@ class Perfiles extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'nombre'];
+    protected $fillable = ['id', 'nombre','usuario'];
 }

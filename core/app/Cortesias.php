@@ -25,5 +25,5 @@ class Cortesias extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'name', 'tiempo_cortesia'];
+    protected $fillable = ['id', 'name', 'tiempo_cortesia','usuario'];
 }

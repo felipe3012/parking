@@ -4,13 +4,38 @@ namespace Parking\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Parking\Configuraciones;
+use Parking\Facturas;
 use Parking\Http\Controllers\Controller;
+use Parking\Servicios;
+use Parking\Tarifas;
 use Parking\Tickets;
 use Session;
-use Parking\Servicios;
 
 class FacturasController extends Controller
 {
+
+    /**
+     * [__construct description]
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
+        $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
+    }
+
+/**
+ * [find description]
+ * @param  Route  $route [description]
+ * @return [type]        [description]
+ */
+    public function find(Route $route)
+    {
+        $this->factura = Facturas::find($route->getParameter('facturas'));
+        $this->notFound($this->factura);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -94,54 +119,76 @@ class FacturasController extends Controller
 
         }
         if ($ticket->cortesia == 2) {
-           
+
         }
     }
-
-  
 
     public function cortesia_ticket($id, $cortesia)
     {
         if ($cortesia == 1) {
-        Session::flash('message-error', 'El ticket es una cortesia');
-        $this->retorno();
+            Session::flash('message-error', 'El ticket es una cortesia');
+            $this->retorno();
         }
         if ($cortesia == 2) {
             $descuento = Cortesias::select(DB::raw("max(id)"))->get();
-            if(count($descuento)>0){
+            if (count($descuento) > 0) {
                 $descuento = $descuento[0]->tiempo_cortesia;
             }
             $this->actualizar_ticket($id);
-            $this->facturar_ticket($id,$des_tiempo);
+            $this->facturar_ticket($id, $des_tiempo);
         }
     }
 
     public function actualizar_ticket($id)
     {
-      $ticket = Tickets::find($id);
-      $ticket->fill(['fecha_fin'=>date("Y-m-d H:i:s")]);
-      $ticket->save();
+        $ticket = Tickets::find($id);
+        $ticket->fill(['fecha_fin' => date("Y-m-d H:i:s")]);
+        $ticket->save();
     }
 
-      public function facturar_ticket($id, $des_tiempo)
+    public function facturar_ticket($id, $des_tiempo)
     {
-        $ticket = Tickets::find($id);
-        $empresa = Configuraciones::find($id);
-        $valor_servicio = Servicios::find($ticket->servicio);
-        $tarifa = Tarifas::select('valor')->whereRaw("id = max(id)")->get();
+        $ticket         = Tickets::find($id);
+        $empresa        = Configuraciones::find(1);
+        $valor_servicio = Servicios::where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->find($ticket->servicio)->get();
+        $tarifa         = Tarifas::select('valor')->where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->groupBy('id')->havingRaw("id = max(id)")->get();
 
-        //calcular valores
-        if($des_tiempo == ''){
-            //factura nomal
-            $diferencia = 
-            $subtotal = $valor_servicio + $tarifa ;
-            $iva = $subtotal*$empresa->iva%;
-            $total = $subtotal + $iva;
-
-        }else{
-            //factura teniendo en cuenta cortesia
+        $total    = 0;
+        $subtotal = 0;
+        $iva      = 0;
+        $servicio = 0;
+        if (count($valor_servicio) > 0) {
+            $servicio = $valor_servicio[0]->valor;
         }
-       return view('facturas.generada', compact('ticket','empresas'));
+
+        $minutos  = $this->minutos_transcurridos($ticket->created_at, $ticket->fecha_fin);
+        $valor    = round((($minutos - $empresa->tiempo_gracia) / 60)) * $tarifa[0]->valor;
+        $subtotal = $servicio + $valor;
+        $iva      = 0;
+        if ($empresa->iva > 0) {
+            $iva = $subtotal * ($empresa->iva / 100);
+        }
+        $total = $subtotal + $empresa->iva;
+
+        $valores= [$minutos, $valor, $subtotal, $iva, $total];
+        
+        $factura = Facturas::create();
+
+        return view('facturas.generada', compact('ticket', 'empresa', 'valor_servicio', 'tarifa','valores'));
+    }
+
+/**
+ * [minutos_transcurridos description]
+ * @param  [type] $fecha_i [description]
+ * @param  [type] $fecha_f [description]
+ * @return [type]          [description]
+ */
+    public function minutos_transcurridos($fecha_i, $fecha_f)
+    {
+        $minutos = (strtotime($fecha_i) - strtotime($fecha_f)) / 60;
+        $minutos = abs($minutos);
+        $minutos = floor($minutos);
+        return $minutos;
     }
 
 /**
@@ -151,21 +198,16 @@ class FacturasController extends Controller
  */
     public function facturanew($id)
     {
-        $ticket = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->whereRaw(" tickets.id = (select lpad($id::text, 10))::int ")->groupBy()->get();
+        $ticket = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->whereRaw(" tickets.id = (select lpad($id::text, 10))::int ")->where('tickets.id', $id)->get();
         if (count($ticket) > 0) {
             $id = $ticket[0]->id;
-            $this->cortesia_ticket($id,$ticket[0]->cortesia)) 
-            $this->mensualidad_ticket($ticket[0]->placa)) {
             $this->actualizar_ticket($id);
-            $this->facturar_ticket($id,'');
-                }
-            }
+            $this->facturar_ticket($id, '');
         } else {
             Session::flash('message-error', 'El ticket ingresado no existe');
             return $this->retorno("");
         }
-        
+
     }
 
-}
 }

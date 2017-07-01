@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('title','tarifas | Administrar')
-@section('name',' <i class="fa fa-building-o"></i> tarifas')
-@section('breadcum','<li>tarifas</li><li class="active">Administrar</li>')
+@section('name',' <i data-icon="/" class="linea-icon linea-basic fa-fw"></i> tarifas')
+@section('breadcrumb','<li>tarifas</li><li class="active">Administrar</li>')
 @section('content')
   <div class="row">
         <div class="col-md-12">
@@ -21,7 +21,7 @@
             @foreach($tarifas as $data)
                 <tr>
                      <td>{{$data->id_tipo_vehiculo}}</td>
-                      <td>{{$data->valor}}</td>
+                      <td>$ {{$data->valor}}</td>
                     <td>
   {!!Html::decode(link_to_route('tarifas.edit','<button type="button" class="btn btn-sm btn-primary "><i class="fa fa-edit"></i></button>',[$data->id],['class'=>'iframe','title'=>'Editar tarifa','data-icon'=>'fa fa-edit']))!!}
   {!!Html::decode(link_to_route('tarifadel','<button type="button" class="btn btn-sm btn-danger "><i class="fa fa-trash-o"></i></button>',[$data->id, $data->nombre],['class'=>'msgbox','title'=>'Eliminar tarifa','data'=>'tarifa: '.$data->id_tipo_vehiculo.' valor:'.$data->valor]))!!}

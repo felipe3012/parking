@@ -26,5 +26,8 @@ class Convenios extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','nombre','peso','padre','icono','referencia'];
+    protected $fillable = [ 'id','fecha_inicio','fecha_fin','tipo_convenio','id_empresa_cliente','numero_carros','numero_motos', 'usuario'];
+
+
+    
 }

@@ -15,10 +15,8 @@ class CreateFuncionalidadesTable extends Migration
         Schema::create('funcionalidades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->integer('peso');
             $table->integer('padre')->default(0);
             $table->string('icono');
-            $table->string('referencia');
             $table->timestamps();
         });
     }

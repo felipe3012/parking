@@ -1,7 +1,7 @@
 <div class="item form-group">
     {!!Html::decode(Form::label('pass', 'Actual', ['class' => 'control-label col-md-4 col-sm-4 col-xs-12']))!!}
     <div class="col-md-12 col-sm-12 col-xs-12">
-        {!!Form::password('pass',['required', 'class'=>'form-control','data-error'=>'Campo requerido','data-remote'=>'/parking/path/to/remote/validator/','data-remote-error'=>'La contraseña es incorrecta'])!!}
+        {!!Form::password('pass',['required', 'class'=>'form-control','data-error'=>'Campo requerido','data-remote'=>'/parkinglot/path/to/remote/validator/','data-remote-error'=>'La contraseña es incorrecta'])!!}
         <div class="help-block with-errors">
         </div>
     </div>

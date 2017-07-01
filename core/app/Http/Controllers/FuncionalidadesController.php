@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Parking\Funcionalidades;
 use Session;
+use Auth;
 
 class FuncionalidadesController extends Controller
 {
@@ -14,7 +15,7 @@ class FuncionalidadesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => []]);
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
         $this->beforeFilter('@find', ['only' => ['edit', 'update']]);
     }
 
@@ -37,6 +38,7 @@ class FuncionalidadesController extends Controller
     public function index()
     {
         //
+       
         $funcionalidades = Funcionalidades::all();
         return view('funcionalidades.admin', compact('funcionalidades'));
     }
@@ -109,11 +111,12 @@ class FuncionalidadesController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $this->funcionalidad->fill($request->all());
-         if (empty($request['padre'])) {
+        if (empty($request['padre'])) {
             $request['padre'] = 0;
         }
-        try {$this->funcionalidad->save();
+        $this->funcionalidad->fill($request->all());
+        try {
+            $this->funcionalidad->save();
             Session::flash('message-success', 'Funcionalidad ' . $request['nombre'] . ' actualizada correctamente');
         } catch (Exception $e) {
             Session::flash('message-error', 'Error al actualizar funcionalidad' . $request['nombre']);

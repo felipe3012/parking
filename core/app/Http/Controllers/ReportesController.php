@@ -3,12 +3,21 @@
 namespace Parking\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use Parking\Http\Requests;
 use Parking\Http\Controllers\Controller;
+use Auth;
+use Session;
 
 class ReportesController extends Controller
 {
+
+    /**
+     * [__construct description]
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index', 'create', 'edit', 'show', 'update', 'destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -46,6 +46,7 @@ Route::get('tipovehiculodel/{id}', 'TipoVehiculosController@destroy')->name('tip
 //Convenios
 Route::resource('convenios','ConveniosController');
 Route::get('conveniodel/{id}', 'ConveniosController@destroy')->name('conveniodel');
+Route::get('convenio_clientes/{id}/{empresa}', 'ConveniosController@convenio_clientes')->name('convenio_clientes');
 
 //Cortesias 
 Route::resource('cortesias','CortesiasController');

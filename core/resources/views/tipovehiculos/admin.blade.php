@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('title','Tipo de vehiculos | Administrar')
-@section('name',' <i class="fa fa-building-o"></i> Tipo de vehiculos')
-@section('breadcum','<li>Tipo de vehiculos</li><li class="active">Administrar</li>')
+@section('name',' <i class="fa fa-bars fa-fw"></i>  Tipo de vehiculos')
+@section('breadcrumb','<li>Tipo de vehiculos</li><li class="active">Administrar</li>')
 @section('content')
   <div class="row">
         <div class="col-md-12">
