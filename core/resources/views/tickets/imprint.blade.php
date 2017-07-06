@@ -22,7 +22,7 @@
                 <td>Telefono:  {{$empresa->telefono}}</td>
             </tr>
             <tr>
-                <td>Servicio: Parqueo +{{$ticket->servicio}}</td>
+                <td>Servicio: Parqueo  @if($ticket->servicio!="Ninguno")+ {{$ticket->servicio}}@endif</td>
             </tr>
         </table>
         <br/>

@@ -24,8 +24,12 @@ class CreateFacturasTable extends Migration
             $table->string('subtotal');
             $table->string('iva');
             $table->string('iva_fijado'); 
+            $table->string('tiempo_valor'); 
             $table->string('total');
             $table->string('cajero');
+            $table->datetime('fecha_entrada');
+            $table->datetime('fecha_salida');
+            $table->string('placa');
             $table->timestamps();
             $table->softDeletes();
         });

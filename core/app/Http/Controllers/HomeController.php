@@ -8,6 +8,10 @@ use Parking\Configuraciones;
 use Parking\Servicios;
 use Parking\Tickets;
 use Parking\TipoVehiculos;
+use Parking\User;
+use Parking\Permisos;
+use Parking\Perfiles;
+use Parking\Funcionalidades;
 
 class HomeController extends Controller
 {
@@ -42,9 +46,30 @@ class HomeController extends Controller
             }
             return view('home', compact('tipovehiculos', 'servicios', 'carros', 'motos', 'stock_carros', 'stock_motos'));
         }
+        $this->configurar();
         return view('auth.login');
 
     }
+
+      /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function configurar()
+    {
+        //
+        $count = Perfiles::select()->get()->count();
+        if ($count == 0) {
+            $permisos = Funcionalidades::select()->get();
+            Perfiles::create(['nombre' => 'Super Su','usuario'=>1]);
+            foreach ($permisos as $value) {
+                Permisos::create(['id_perfil' => 1, 'id_funcionalidad' => $value->id]);
+            }
+            User::create(['name' => 'Admin', 'email' => 'Admin', 'password' => 'Admin', 'id_perfil' => 1,'usuario'=>1]);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.

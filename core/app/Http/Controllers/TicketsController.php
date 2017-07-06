@@ -73,7 +73,7 @@ class TicketsController extends Controller
                 $tickets           = Tickets::create($request->all());
 
                 $ticket = Tickets::select(DB::raw("tickets.id as id, placa,
-                lpad(tickets.id::text, 10, '0'::text) as cod, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->find(3);
+                lpad(tickets.id::text, 10, '0'::text) as cod, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'tickets.id_tipo_vehiculo')->groupBy('tipo_vehiculos.nombre','tickets.id','servicios.nombre')->whereNull('fecha_fin')->where('tipo_vehiculos.id',$tickets->id_tipo_vehiculo)->find($tickets->id);
 
                 $empresa = Configuraciones::find(1);
                 Session::flash('message-success', 'ticket creado correctamente');

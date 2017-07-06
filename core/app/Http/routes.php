@@ -56,6 +56,7 @@ Route::get('cortesiadel/{id}/{name}', 'CortesiasController@destroy')->name('cort
 Route::resource('facturas','FacturasController');
 Route::get('facturadel/{id}', 'FacturasController@destroy')->name('facturadel');
 Route::get('facturanew/{id}', 'FacturasController@facturanew')->name('facturanew');
+Route::post('facturanew', 'FacturasController@facturapost')->name('facturanew');
 
 //Tickets
 Route::resource('tickets','TicketsController');
@@ -90,5 +91,3 @@ Route::resource('configuraciones','ConfiguracionesController');
 //validations remote
 Route::get('/path/to/remote/validator/{id}', 'UsuariosController@valid');
 Route::get('/path/to/remote/email/{id}', 'UsuariosController@unique');
-
-Route::get('tic',function(){ return view('tickets.imprint');});
