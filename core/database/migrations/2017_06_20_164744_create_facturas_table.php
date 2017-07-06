@@ -27,6 +27,7 @@ class CreateFacturasTable extends Migration
             $table->string('total');
             $table->string('cajero');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

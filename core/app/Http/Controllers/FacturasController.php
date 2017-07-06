@@ -46,6 +46,8 @@ class FacturasController extends Controller
     public function index()
     {
         //
+        $facturas = Facturas::select(DB::raw("id, servicio, valor_servicio, tipo_vehiculo, tiempo_gracia, tiempo_cortesia, tiempo, tarifa, subtotal, iva, iva_fijado , total , cajero ")->get();
+        return view('facturas.admin', compact('facturas'));
     }
 
     /**
@@ -112,6 +114,14 @@ class FacturasController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            $ticket = Facturas::find($id);
+            $ticket->delete();
+            Session::flash('message-success', 'Factura No. ' . $id . ' eliminada correctamente');
+        } catch (Exception $e) {
+            Session::flash('message-error', 'Error al eliminar factura No. ' . $id);
+        }
+        return $this->retorno("facturas");
     }
 
     public function mensualidad_ticket($placa)

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Facturas extends Model
 {
+    use SoftDeletes; 
     //
      /**
      * The database table used by the model.
@@ -20,6 +21,7 @@ class Facturas extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
