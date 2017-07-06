@@ -2,6 +2,7 @@
 
 namespace Parking\Http\Controllers;
 
+use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -13,7 +14,6 @@ use Parking\Tarifas;
 use Parking\Tickets;
 use Parking\TipoVehiculos;
 use Session;
-use Auth;
 
 class FacturasController extends Controller
 {
@@ -152,27 +152,40 @@ class FacturasController extends Controller
     {
         $ticket         = Tickets::find($id);
         $empresa        = Configuraciones::find(1);
-        $valor_servicio = Servicios::where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->find($ticket->servicio)->get();
-        $tarifa         = Tarifas::select('valor')->where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->groupBy('id')->havingRaw("id = max(id)")->get();
-        $tipo           = TipoVehiculos::find($ticket->id_tipo_vehiculo);
+        $valor_servicio = Servicios::where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)->find($ticket->servicio);
+        $tarifa         = Tarifas::select('valor')
+            ->where('id_tipo_vehiculo', $ticket->id_tipo_vehiculo)
+            ->groupBy('id')
+            ->havingRaw("id = max(id)")
+            ->get();
 
-        $total        = 0;
-        $subtotal     = 0;
-        $iva          = 0;
-        $servicio     = 0;
-        $des_servicio = null;
-        $tarif        = 0;
-        if (count($valor_servicio) > 0) {
-            $servicio     = $valor_servicio[0]->valor;
-            $des_servicio = $valor_servicio[0]->nombre;
+        $tipo = TipoVehiculos::find($ticket->id_tipo_vehiculo);
+
+        $total         = 0;
+        $subtotal      = 0;
+        $iva           = 0;
+        $servicio      = 0;
+        $des_servicio  = null;
+        $tarif         = 0;
+        $tiempo_gracia = $empresa->tiempo_gracia;
+
+        if (count($valor_servicio) > 0 ) {
+            $servicio     = $valor_servicio->valor;
+            $des_servicio = $valor_servicio->nombre;
         }
 
         if (count($tarifa) > 0) {
             $tarif = $tarifa[0]->valor;
         }
 
-        $minutos  = $this->minutos_transcurridos($ticket->created_at, $ticket->fecha_fin);
-        $valor    = (($minutos - $empresa->tiempo_gracia) / 60) * $tarif;
+        $minutos    = $this->minutos_transcurridos($ticket->created_at, $ticket->fecha_fin);
+        $total_time = ceil($minutos / 60);
+        $grax = '1.'.(($tiempo_gracia*60)/100);
+        if ($total_time < $grax ) {
+            $grax = 0;
+        }
+
+        $valor    = ($total_time - $grax) * $tarif;
         $subtotal = $servicio + $valor;
         $iva      = 0;
         if ($empresa->iva > 0) {
@@ -182,19 +195,23 @@ class FacturasController extends Controller
 
         $factura = Facturas::create([
             'cajero'          => Auth::user()->id,
-            'servicio' => $des_servicio,
+            'servicio'        => $des_servicio,
             'valor_servicio'  => $servicio,
             'tipo_vehiculo'   => $tipo->nombre,
-            'tiempo_gracia'  => $empresa->tiempo_gracia,
+            'tiempo_gracia'   => $tiempo_gracia,
             'tiempo_cortesia' => $des_tiempo,
             'tiempo'          => $minutos,
+            'placa'           => $ticket->placa,
+            'fecha_entrada'   => $ticket->created_at,
+            'fecha_salida'    => $ticket->fecha_fin,
+            'tiempo_valor'    => $valor,
             'tarifa'          => $tarif,
             'subtotal'        => $subtotal,
             'iva'             => $iva,
             'iva_fijado'      => $empresa->iva,
             'total'           => round($total)]);
-        dd($factura);
-        return view('facturas.generada', compact('factura'));
+
+        return $factura;
     }
 
 /**
@@ -216,13 +233,50 @@ class FacturasController extends Controller
  * @param  [type] $id [description]
  * @return [type]     [description]
  */
-    public function facturanew(Request $request , $id)
+    public function facturanew($id)
     {
+        $empresa = Configuraciones::find(1);
+        $ticket  = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->whereRaw(" tickets.id = (select lpad($id::text, 10))::int ")->where('tickets.id', $id)->get();
+
+        if (count($ticket) > 0) {
+            $id = $ticket[0]->id;
+            $this->actualizar_ticket($id);
+            $factura = $this->facturar_ticket($id, '');
+            if (count($factura) > 0) {
+                return view('facturas.generada', compact('factura', 'empresa'));
+            }
+        } else {
+            Session::flash('message-error', 'El ticket ingresado no existe');
+            return $this->retorno("");
+        }
+
+    }
+
+    /**
+     * [facturanew description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function facturapost(Request $request)
+    {
+        $empresa = Configuraciones::find(1);
+
+        $id = 0;
+        if (!empty($request['placa'])) {
+            $tick = Tickets::where('placa', $request['placa'])->whereNull('fecha_fin')->get();
+            if (count($tick) > 0) {
+                $id = $tick[0]->id;
+            }
+        }
+
         $ticket = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->whereRaw(" tickets.id = (select lpad($id::text, 10))::int ")->where('tickets.id', $id)->get();
         if (count($ticket) > 0) {
             $id = $ticket[0]->id;
             $this->actualizar_ticket($id);
-            $this->facturar_ticket($id, '');
+            $factura = $this->facturar_ticket($id, '');
+            if (count($factura) > 0) {
+                return view('facturas.generada', compact('factura', 'empresa'));
+            }
         } else {
             Session::flash('message-error', 'El ticket ingresado no existe');
             return $this->retorno("");

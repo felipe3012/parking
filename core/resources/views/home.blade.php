@@ -9,9 +9,9 @@
         <div class="col-md-6">
         <div class="col-md-12">
         <div class="col-md-3"></div>
-          <div class="col-md-4">
-    <div  style="background-color:#ffc60b;padding: 10px;text-align: center; -moz-border-radius: 10px;-webkit-border-radius: 10px;width: 250px;">
-  <label id="placatext" style="border: black 3px solid;padding: 10px;font-size: 45px;color: black;text-transform: uppercase; -moz-border-radius: 10px;-webkit-border-radius: 10px;">---:---</label>
+          <div class="col-md-3">
+    <div  style="background-color:#ffc60b;padding: 10px;text-align: center; -moz-border-radius: 10px;-webkit-border-radius: 10px;width: 350px;height: 130px;">
+  <label id="placatext" style="border: black 3px solid;padding: 10px;font-size: 50px;color: black;text-transform: uppercase; -moz-border-radius: 10px;-webkit-border-radius: 10px;">---:---</label>
   </div><br/>
   </div>
         </div>

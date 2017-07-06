@@ -26,5 +26,5 @@ class Facturas extends Model
      *
      * @var array
      */
-      protected $fillable = ['id', 'servicio','valor_servicio','tipo_vehiculo','tiempo_gracia','tiempo_cortesia','tiempo','tarifa','subtotal','iva','iva_fijado','total','cajero'];
+      protected $fillable = ['id', 'servicio','valor_servicio','tipo_vehiculo','tiempo_gracia','tiempo_cortesia','tiempo','tiempo_valor','tarifa','subtotal','iva','iva_fijado','total','cajero','fecha_entrada','fecha_salida','placa'];
 }

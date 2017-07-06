@@ -18,7 +18,7 @@
                     <label for="exampleInputEmail1">Tipo de vehiculo </label>
                     <div class="input-group">
                       <div class="input-group-addon"><i class="fa fa-car"></i></div>
-                      {!! Form::select('id_tipo_vehiculo', []+$tipovehiculos, 1, ['data-error'=>'Campo requerido','required','class'=>'form-control']) !!}
+                      {!! Form::select('id_tipo_vehiculo', []+$tipovehiculos, 2, ['data-error'=>'Campo requerido','required','class'=>'form-control']) !!}
                     </div>
                     <div class="help-block with-errors"></div>
                   </div>               
