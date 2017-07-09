@@ -10,8 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+ 
 Route::get('/','HomeController@index');
+Route::get('configurar','HomeController@configurar');
  
 // Autenticación
 Route::get('auth/login', 'Auth\AuthController@getLogin');

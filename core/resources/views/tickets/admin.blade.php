@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('title','servicios | Administrar')
-@section('name',' <i class="fa fa-building-o"></i> servicios')
-@section('breadcrumb','<li>servicios</li><li class="active">Administrar</li>')
+@section('name',' <i class="icon-tag fa-fw"></i> Tickets')
+@section('breadcrumb','<li>tickets</li><li class="active">Administrar</li>')
 @section('content')
   <div class="row">
         <div class="col-md-12">

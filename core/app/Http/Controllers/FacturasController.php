@@ -13,7 +13,7 @@ use Parking\Servicios;
 use Parking\Tarifas;
 use Parking\Tickets;
 use Parking\TipoVehiculos;
-use Session;
+use Session; 
 
 class FacturasController extends Controller
 {
@@ -46,7 +46,7 @@ class FacturasController extends Controller
     public function index()
     {
         //
-        $facturas = Facturas::select(DB::raw("id, servicio, valor_servicio, tipo_vehiculo, tiempo_gracia, tiempo_cortesia, tiempo, tarifa, subtotal, iva, iva_fijado , total , cajero ")->get();
+        $facturas = Facturas::select(DB::raw("id, servicio, valor_servicio, tipo_vehiculo, tiempo_gracia, tiempo_cortesia, tiempo, tarifa, subtotal, iva, iva_fijado , total , cajero "))->get();
         return view('facturas.admin', compact('facturas'));
     }
 
@@ -247,7 +247,7 @@ class FacturasController extends Controller
     {
         $empresa = Configuraciones::find(1);
         $ticket  = Tickets::select(DB::raw("tickets.id as id, placa, servicios.nombre AS servicio, tipo_vehiculos.nombre AS vehiculo, to_char(tickets.created_at, 'HH12:MI:SS') AS hora "))->join('servicios', 'servicios.id', '=', 'tickets.servicio')->join('tipo_vehiculos', 'tipo_vehiculos.id', '=', 'servicios.id_tipo_vehiculo')->whereRaw(" tickets.id = (select lpad($id::text, 10))::int ")->where('tickets.id', $id)->get();
-
+ 
         if (count($ticket) > 0) {
             $id = $ticket[0]->id;
             $this->actualizar_ticket($id);

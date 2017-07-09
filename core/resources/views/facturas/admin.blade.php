@@ -29,7 +29,7 @@
                      <td>{{$data->total}}</td>
                     <td>
   {!!Html::decode(link_to_route('facturas.edit','<button type="button" class="btn btn-sm btn-primary "><i class="fa fa-edit"></i></button>',[$data->id],['class'=>'iframe','title'=>'Editar factura','data-icon'=>'fa fa-edit']))!!}
-  {!!Html::decode(link_to_route('facturasdel','<button type="button" class="btn btn-sm btn-danger "><i class="fa fa-trash-o"></i></button>',[$data->id],['class'=>'msgbox','title'=>'Eliminar factura','data'=>'Factura No. : '.$data->id]))!!}
+  {!!Html::decode(link_to_route('facturadel','<button type="button" class="btn btn-sm btn-danger "><i class="fa fa-trash-o"></i></button>',[$data->id],['class'=>'msgbox','title'=>'Eliminar factura','data'=>'Factura No. : '.$data->id]))!!}
  </td>
                 </tr>
                 @endforeach
